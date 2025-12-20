@@ -1,0 +1,8 @@
+[user]
+	name = Christopher Michael-Stokes
+	email = christophermichaelstokes@gmail.com
+	signingkey = /home/chris/.ssh/id_ed25519_signing.pub
+[gpg]
+	format = ssh
+[commit]
+	gpgsign = true
