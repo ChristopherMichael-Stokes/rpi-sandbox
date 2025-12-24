@@ -23,3 +23,9 @@ Blogs & informal tutorials
 1. Implementing and iterating upon a low latency networked video stream, starting with heavy reliance on out-of-the box functionality through rpicam libs followed by continuous latency refinement and profiling
 2. Remote object detection making use of the stream implementation
 3. Edge object detection on the pi itself, starting with real-time capable DL models and exploring classical approaches
+4. Detection to power on LEDs set to custom classes
+5. Hand tracking - just get out of the box stuff working
+6. Hand tracking to mouse automation like pinch click, index finger point to move, swipe hand for arrows etc.
+7. Gaussian splatting [Apple's new impl](https://github.com/apple/ml-sharp?tab=readme-ov-file)
+8. SLAM, more out of the box bits
+ 
