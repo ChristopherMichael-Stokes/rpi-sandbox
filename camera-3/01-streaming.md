@@ -23,10 +23,9 @@ while :; do rpicam-vid --camera 1 -t 0 -n --inline --listen --vflip 1 --low-late
 
 Loading frames in a python process to memory ([opencv VideoCapture api](https://docs.opencv.org/4.x/d8/dfe/classcv_1_1VideoCapture.html#a57c0e81e83e60f36c83027dc2a188e80)): [01-capture.py](./01-capture.py)
 
-Loading frames in a buffer and concurrently pulling the latest (threading, frame queue)
-<!-- TODO: code -->
+Loading frames in a buffer and concurrently pulling the latest (threading, frame queue) [01-buffered-capture.py](./01-buffered-capture.py)
 
-Loading frames directly from camera in a python process on the pi (lowest overhead possible, avoiding networking stack etc)
+Loading frames directly from camera in a python process on the pi (lowest overhead possible, avoiding networking stack etc), https://stackoverflow.com/questions/35166111/opencv-python-reading-video-from-named-pipe
 <!-- TODO: code -->
 
 Loading frames in a cpp process to memory (translate python to cpp, api is very similar)
