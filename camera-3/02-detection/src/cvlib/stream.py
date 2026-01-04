@@ -12,11 +12,10 @@ class FrameBuffer(threading.Thread):
         protocol: str,
         ip: str,
         port: str,
-        interrupt: threading.Event,
         maxlen: int = 200,
     ) -> None:
-        super().__init__()
-        self.interrupt = interrupt
+        super().__init__(daemon=True)
+        self.interrupt = threading.Event()
         self.address = f"{protocol}://{ip}:{port}"
         params = "?" + "&".join(
             [
@@ -51,6 +50,10 @@ class FrameBuffer(threading.Thread):
                     return
 
             yield self.buffer.pop()
+
+    def stop(self):
+        self.interrupt.set()
+        self.join()
 
     def run(self):
         self.init_cap()

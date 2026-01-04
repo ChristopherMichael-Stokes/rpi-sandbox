@@ -1,4 +1,3 @@
-import threading
 from typing import Literal
 
 import cv2 as cv
@@ -53,17 +52,20 @@ def main(
 
     model.model.model = as_compiled(model.model.model, torch.bfloat16)
     _ = model.predict(np.random.uniform(0, 1, (res, res, 3)))
-    np.random.uniform
     id2label = model.class_names
-    bounding_box_annotator = sv.BoxAnnotator()
+    annotators = [
+        sv.BoxAnnotator(),
+        sv.PercentageBarAnnotator(),
+    ]
     label_annotator = sv.LabelAnnotator()
+    print("=" * 120)
     print(model.model.model)
+    print("=" * 120)
     print(f"Inference device: {model.model.device}")
     print(f"Inference resolution: {model.model.resolution}")
     print(f"Total params: {sum(p.numel() for p in model.model.model.parameters()):,}")
 
-    interrupt = threading.Event()
-    frame_buffer = FrameBuffer(protocol, ip, port, interrupt)
+    frame_buffer = FrameBuffer(protocol, ip, port)
     frame_buffer.start()
 
     try:
@@ -72,9 +74,11 @@ def main(
 
             if detections:
                 labels = [id2label[id_] for id_ in detections.class_id]  # type: ignore
-                annotated_image = bounding_box_annotator.annotate(
-                    scene=frame, detections=detections
-                )
+                annotated_image = frame
+                for annotator in annotators:
+                    annotated_image = annotator.annotate(
+                        scene=frame, detections=detections
+                    )
                 annotated_image = label_annotator.annotate(
                     scene=annotated_image, detections=detections, labels=labels
                 )
@@ -88,8 +92,7 @@ def main(
             ):
                 break
     finally:
-        interrupt.set()
-        frame_buffer.join()
+        frame_buffer.stop()
 
 
 if __name__ == "__main__":
