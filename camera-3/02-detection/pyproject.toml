@@ -15,7 +15,19 @@ dependencies = [
     "typer>=0.21.0",
 ]
 
-# [tool.uv]
+[project.scripts]
+detect = "cvlib.detect:app"
+
+[build-system]
+requires = ["uv_build>=0.9.21,<0.10.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "cvlib"
+module-root = "src"
+
+#[tool.uv]
+#package = true
 # override-dependencies = [
 #     "opencv-python ; sys_platform == 'never'",  # We need contrib for window writing functions
 #     "opencv-python-headless ; sys_platform == 'never'"
