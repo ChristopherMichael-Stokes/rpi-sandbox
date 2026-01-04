@@ -39,15 +39,16 @@ class FrameBuffer(threading.Thread):
                 "sync=ext",
             ]
         )
-        url = f"{self.address}/{params}"
-
-        self.cap = cv.VideoCapture(url, apiPreference=cv.CAP_FFMPEG)
-        self.cap.set(cv.CAP_PROP_BUFFERSIZE, 0)
-        self.cap.set(cv.CAP_PROP_DTS_DELAY, 0)
-        self.cap.set(cv.CAP_PROP_HW_ACCELERATION, cv.VIDEO_ACCELERATION_ANY)
+        self.url = f"{self.address}/{params}"
 
         # Using deque as a LIFO queue
         self.buffer = deque(maxlen=maxlen)
+
+    def init_cap(self) -> None:
+        self.cap = cv.VideoCapture(self.url, apiPreference=cv.CAP_FFMPEG)
+        self.cap.set(cv.CAP_PROP_BUFFERSIZE, 0)
+        self.cap.set(cv.CAP_PROP_DTS_DELAY, 0)
+        self.cap.set(cv.CAP_PROP_HW_ACCELERATION, cv.VIDEO_ACCELERATION_ANY)
 
     def __iter__(self):
         logger.info(f"Waiting for stream - {self.address}")
@@ -64,6 +65,7 @@ class FrameBuffer(threading.Thread):
             yield self.buffer.pop()
 
     def run(self):
+        self.init_cap()
         while (ret := self.cap.read())[0]:
             _, frame = ret
             self.buffer.append(frame)

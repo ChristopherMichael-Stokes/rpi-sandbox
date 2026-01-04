@@ -1,0 +1,22 @@
+[project]
+name = "02-detection"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "loguru>=0.7.3",
+    "numpy>=2.4.0",
+    "opencv-contrib-python>=4.11.0.86",
+    "opencv-contrib-python-headless>=4.11.0.86",
+    "rfdetr>=1.3.0",
+    "supervision>=0.27.0",
+    "tqdm>=4.67.1",
+    "typer>=0.21.0",
+]
+
+# [tool.uv]
+# override-dependencies = [
+#     "opencv-python ; sys_platform == 'never'",  # We need contrib for window writing functions
+#     "opencv-python-headless ; sys_platform == 'never'"
+# ]
